@@ -1,0 +1,27 @@
+body, html {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: auto;
+}
+
+#container{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#controls {
+    background-color: rgb(52, 255, 238);
+}
+
+#break{
+    display: inline-block;
+    background-color: green;
+}
+
+#session{
+    display: inline-block;
+    background-color: red;
+}
