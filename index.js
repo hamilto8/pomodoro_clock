@@ -34,68 +34,120 @@ reset.addEventListener('click', resetSettings);
 function resetSettings(){
     breakTime = 5;
     sessionTime = 25;
+    displayMinutes.textContent = sessionTime
+    clearInterval(countDown);
     init();
 }
 
 breakUp.addEventListener('click', upBreakTime);
 
 function upBreakTime(){
-    if( breakTime < 25){
-        breakTime += 1;
-        pomodoroBreak.textContent = breakTime;
-        message.textContent = "";
-    } else {
-        message.textContent = "You have reached the maximum break time";
+    if(!started){
+        if( breakTime < 25){
+            breakTime += 1;
+            pomodoroBreak.textContent = breakTime;
+            message.textContent = "";
+        } else {
+            message.textContent = "You have reached the maximum break time";
+        }
     }
 }
 
 breakDown.addEventListener('click', downBreakTime);
 
 function downBreakTime(){
-    if (breakTime > 1){
-        breakTime -= 1;
-        pomodoroBreak.textContent = breakTime;
-        message.textContent = "";
-    } else {
-        message.textContent = "You have reached the minimum break time";
+    if(!started){
+        if (breakTime > 1){
+            breakTime -= 1;
+            pomodoroBreak.textContent = breakTime;
+            message.textContent = "";
+        } else {
+            message.textContent = "You have reached the minimum break time";
+        }
     }
 }
 
 sessionUp.addEventListener('click', upSessionTime);
 
 function upSessionTime(){
-    if (sessionTime < 25){
-        sessionTime += 1;
-        pomodoroSession.textContent = sessionTime;
-        message.textContent = "";
-    } else {
-        message.textContent = "You have reached the maximum session time.";
+    if(!started){
+        if (sessionTime < 25){
+            sessionTime += 1;
+            pomodoroSession.textContent = sessionTime;
+            displayMinutes.textContent = sessionTime;
+            message.textContent = "";
+        } else {
+            message.textContent = "You have reached the maximum session time.";
+        }
     }
 }
 
 sessionDown.addEventListener('click', downSessionTime);
 
 function downSessionTime(){
-    if (sessionTime > 1){
-        sessionTime -= 1;
-        pomodoroSession.textContent = sessionTime;
-        message.textContent = "";
-    } else {
-        message.textContent = "You have reached the minimum session time.";
+    if(!started){
+        if (sessionTime > 1){
+            sessionTime -= 1;
+            pomodoroSession.textContent = sessionTime;
+            displayMinutes.textContent = sessionTime;
+            message.textContent = "";
+        } else {
+            message.textContent = "You have reached the minimum session time.";
+        }
     }
 }
 
+
+
+
 startButton.addEventListener("click", startClock);
 
+let started = false;
+
 function startClock(){
-    setInterval(() => {
-        if(sessionTime > 0){
-            sessionTime -=1
-        }
-        message.textContent = sessionTime
-    }, 1000);
+    if(!started){
+        started = true;
+        let minutes = sessionTime;
+        let isBreak = false;
+        let seconds = 59;
+        minutes -= 1;
+        displayMinutes.textContent = minutes;
+        displaySeconds.textContent = seconds;
+        setInterval(function countDown() {
+            let time = 0;
+            if(seconds > 0 && time < 60){
+                seconds -= 1;
+                time += 1;
+                if(seconds >= 10){
+                    displaySeconds.textContent = seconds;
+                } else {
+                    displaySeconds.textContent = `0${seconds}`;
+                }
+            } else if (minutes > 0) {
+                    minutes -= 1;
+                    seconds = 59;
+                    time = 0;
+                    displayMinutes.textContent = minutes;
+                    displaySeconds.textContent = seconds;
+            } else if (!minutes > 0){
+                if(isBreak){
+                    isBreak = false;
+                    clockState.innerHTML = "<h2>Session</h2>";
+                    minutes = sessionTime;
+                    displayMinutes.textContent = minutes;
+                } else {
+                    isBreak = true;
+                    clockState.innerHTML = "<h2>Break</h2>";
+                    minutes = breakTime;
+                    displayMinutes.textContent = minutes;
+                }
+            }
+        }, 1000);
+    } else {
+        stopClock();
+    }
 }
 
 function stopClock(){
-    
+    clearInterval(countDown)
 }
