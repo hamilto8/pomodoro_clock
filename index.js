@@ -16,11 +16,17 @@ const startButton = document.getElementById("start");
 let breakTime = 5;
 let sessionTime = 25;
 
+let countDownID;
+
 window.onload = function(){
     init();
 }
 
 function init(){
+    breakTime = 5;
+    sessionTime = 25;
+    seconds = 59;
+    minutes = sessionTime
     pomodoroBreak.textContent = breakTime;
     pomodoroSession.textContent = sessionTime;
     displayMinutes.textContent = sessionTime;
@@ -32,11 +38,13 @@ function init(){
 reset.addEventListener('click', resetSettings);
 
 function resetSettings(){
-    breakTime = 5;
-    sessionTime = 25;
-    displayMinutes.textContent = sessionTime
-    clearInterval(countDown);
+    started = false;
+    paused = false;
+    isBreak = false;
+    displayMinutes.textContent = sessionTime;
     init();
+    clearInterval(countDownID);
+    startButton.textContent = "Start";
 }
 
 breakUp.addEventListener('click', upBreakTime);
@@ -97,23 +105,25 @@ function downSessionTime(){
     }
 }
 
-
-
-
 startButton.addEventListener("click", startClock);
 
 let started = false;
+let paused = false;
+
+let seconds = 59;
+let minutes = sessionTime;   
+let isBreak = false;
 
 function startClock(){
     if(!started){
         started = true;
-        let minutes = sessionTime;
-        let isBreak = false;
-        let seconds = 59;
+        message.textContent = "";        
+        startButton.textContent = "Pause";
+        minutes = sessionTime
         minutes -= 1;
         displayMinutes.textContent = minutes;
         displaySeconds.textContent = seconds;
-        setInterval(function countDown() {
+        countDownID = window.setInterval(function countDown() {
             let time = 0;
             if(seconds > 0 && time < 60){
                 seconds -= 1;
@@ -144,10 +154,52 @@ function startClock(){
             }
         }, 1000);
     } else {
-        stopClock();
+        pauseFunction();
     }
 }
 
-function stopClock(){
-    clearInterval(countDown)
+function pauseFunction(){
+    if(paused){
+        startButton.textContent = "Pause";
+        paused = false;
+        message.textContent = "";
+        let isBreak = false;
+        
+        displayMinutes.textContent = minutes;
+        displaySeconds.textContent = seconds;
+        countDownID = window.setInterval(function countDown() {
+            let time = 0;
+            if(seconds > 0 && time < 60){
+                seconds -= 1;
+                time += 1;
+                if(seconds >= 10){
+                    displaySeconds.textContent = seconds;
+                } else {
+                    displaySeconds.textContent = `0${seconds}`;
+                }
+            } else if (minutes > 0) {
+                    minutes -= 1;
+                    seconds = 59;
+                    time = 0;
+                    displayMinutes.textContent = minutes;
+                    displaySeconds.textContent = seconds;
+            } else if (!minutes > 0){
+                if(isBreak){
+                    isBreak = false;
+                    clockState.innerHTML = "<h2>Session</h2>";
+                    minutes = sessionTime;
+                    displayMinutes.textContent = minutes;
+                } else {
+                    isBreak = true;
+                    clockState.innerHTML = "<h2>Break</h2>";
+                    minutes = breakTime;
+                    displayMinutes.textContent = minutes;
+                }
+            }
+        }, 1000);
+    } else {
+        clearInterval(countDownID);
+        startButton.textContent = "Start";
+        paused = true;
+    }
 }
