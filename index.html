@@ -4,37 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="A premium, modern Pomodoro Clock with glassmorphic design, dynamic circular progress indicator, and custom audio chime notifications.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./index.css">
     <title>Pomodoro Clock</title>
 </head>
-<body>
-    <div id="container">
-        <div id="clock">
+<body class="session-mode">
+    <div id="stars-container"></div>
+    <main id="container">
+        <header>
             <h1 id="title">Pomodoro Clock</h1>
+        </header>
+
+        <section id="clock">
             <div id="controls">
-                <div id="break">
-                    <h4>Break</h4>
-                    <div id="breakTime"></div>
-                    <button id="breakUp">Up</button>
-                    <button id="breakDown">Down</button>
+                <div id="session" class="control-box">
+                    <h4>Session Length</h4>
+                    <div class="control-actions">
+                        <button id="sessionDown" class="btn-ctrl" aria-label="Decrease session time by 1 minute">&minus;</button>
+                        <span id="sessionTime" aria-live="polite">25</span>
+                        <button id="sessionUp" class="btn-ctrl" aria-label="Increase session time by 1 minute">&plus;</button>
+                    </div>
                 </div>
-                <div id="session">
-                    <h4>Session</h4>
-                    <div id="sessionTime"></div>
-                    <button id="sessionUp">Up</button>
-                    <button id="sessionDown">Down</button>
+                
+                <div id="break" class="control-box">
+                    <h4>Break Length</h4>
+                    <div class="control-actions">
+                        <button id="breakDown" class="btn-ctrl" aria-label="Decrease break time by 1 minute">&minus;</button>
+                        <span id="breakTime" aria-live="polite">5</span>
+                        <button id="breakUp" class="btn-ctrl" aria-label="Increase break time by 1 minute">&plus;</button>
+                    </div>
                 </div>
             </div>
-            <div id="display">
-                <div id="clockState"></div>
-                <span id="minutes"></span>:<span id="seconds"></span>
+
+            <div id="display-container">
+                <svg class="progress-ring" width="280" height="280">
+                    <circle class="progress-ring__background" stroke-width="6" fill="transparent" r="130" cx="140" cy="140"/>
+                    <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="130" cx="140" cy="140" stroke-linecap="round"/>
+                </svg>
+                <div id="display" role="timer" aria-live="off">
+                    <div id="clockState">Session</div>
+                    <div id="time-text">
+                        <span id="minutes">25</span>:<span id="seconds">00</span>
+                    </div>
+                </div>
             </div>
-            <button id="start">Start</button>
-            <button id="reset">Reset</button>
-        </div>
-        <div id="message"></div>
-    </div>
+
+            <div id="action-buttons">
+                <button id="start" class="btn btn-primary">Start</button>
+                <button id="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </section>
+
+        <div id="message" role="status" aria-live="polite"></div>
+    </main>
+
+    <footer id="footer">
+        <p>&copy; 2019 - 2026 Michael Hamilton</p>
+    </footer>
     <script src="./index.js"></script>
-    <footer id="footer">2019 Michael Hamilton</footer>
 </body>
 </html>
