@@ -23,24 +23,24 @@
                 <div id="session" class="control-box">
                     <h4>Session Length</h4>
                     <div class="control-actions">
-                        <button id="sessionDown" class="btn-ctrl" aria-label="Decrease session time by 1 minute">&minus;</button>
+                        <button id="sessionDown" type="button" class="btn-ctrl" aria-label="Decrease session time by 1 minute"><span aria-hidden="true">&minus;</span></button>
                         <span id="sessionTime" aria-live="polite">25</span>
-                        <button id="sessionUp" class="btn-ctrl" aria-label="Increase session time by 1 minute">&plus;</button>
+                        <button id="sessionUp" type="button" class="btn-ctrl" aria-label="Increase session time by 1 minute"><span aria-hidden="true">&plus;</span></button>
                     </div>
                 </div>
                 
                 <div id="break" class="control-box">
                     <h4>Break Length</h4>
                     <div class="control-actions">
-                        <button id="breakDown" class="btn-ctrl" aria-label="Decrease break time by 1 minute">&minus;</button>
+                        <button id="breakDown" type="button" class="btn-ctrl" aria-label="Decrease break time by 1 minute"><span aria-hidden="true">&minus;</span></button>
                         <span id="breakTime" aria-live="polite">5</span>
-                        <button id="breakUp" class="btn-ctrl" aria-label="Increase break time by 1 minute">&plus;</button>
+                        <button id="breakUp" type="button" class="btn-ctrl" aria-label="Increase break time by 1 minute"><span aria-hidden="true">&plus;</span></button>
                     </div>
                 </div>
             </div>
 
             <div id="display-container">
-                <svg class="progress-ring" width="280" height="280">
+                <svg class="progress-ring" width="280" height="280" viewBox="0 0 280 280">
                     <circle class="progress-ring__background" stroke-width="6" fill="transparent" r="130" cx="140" cy="140"/>
                     <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="130" cx="140" cy="140" stroke-linecap="round"/>
                 </svg>
@@ -53,8 +53,8 @@
             </div>
 
             <div id="action-buttons">
-                <button id="start" class="btn btn-primary">Start</button>
-                <button id="reset" class="btn btn-secondary">Reset</button>
+                <button id="start" type="button" class="btn btn-primary">Start</button>
+                <button id="reset" type="button" class="btn btn-secondary">Reset</button>
             </div>
         </section>
 

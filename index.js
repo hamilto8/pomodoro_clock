@@ -27,12 +27,8 @@ let isBreak = false;
 let countDownID = null;
 
 // Progress Circle Calculation
-const radius = progressCircle.r.baseVal.value;
-const circumference = 2 * Math.PI * radius;
-
-// Setup Progress Circle
-progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-progressCircle.style.strokeDashoffset = 0;
+let radius = 0;
+let circumference = 0;
 
 // Initialize app
 window.onload = function() {
@@ -61,6 +57,13 @@ function init() {
     clockState.textContent = "Session";
     message.textContent = "";
     startButton.textContent = "Start";
+    
+    if (progressCircle && progressCircle.r && progressCircle.r.baseVal) {
+        radius = progressCircle.r.baseVal.value;
+        circumference = 2 * Math.PI * radius;
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = 0;
+    }
     
     updateDisplay();
 }
@@ -137,11 +140,16 @@ startButton.addEventListener("click", handleStartPause);
 
 function handleStartPause() {
     // Initialize audio context on first user click to satisfy browser security
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === "suspended") {
-        audioCtx.resume();
+    try {
+        if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioCtx();
+        }
+        if (audioCtx && audioCtx.state === "suspended") {
+            audioCtx.resume();
+        }
+    } catch (e) {
+        console.warn("AudioContext initialization prevented by browser:", e);
     }
 
     message.textContent = "";
