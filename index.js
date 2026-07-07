@@ -146,7 +146,8 @@ function handleStartPause() {
             audioCtx = new AudioCtx();
         }
         if (audioCtx && audioCtx.state === "suspended") {
-            audioCtx.resume();
+            const res = audioCtx.resume();
+            if (res && typeof res.catch === "function") res.catch(e => console.warn("Audio resume blocked by browser policy:", e));
         }
     } catch (e) {
         console.warn("AudioContext initialization prevented by browser:", e);
@@ -213,7 +214,8 @@ function playAlarmSound() {
     try {
         if (!audioCtx) return;
         if (audioCtx.state === "suspended") {
-            audioCtx.resume();
+            const res = audioCtx.resume();
+            if (res && typeof res.catch === "function") res.catch(e => console.warn("Audio resume blocked by browser policy:", e));
         }
         
         const now = audioCtx.currentTime;
